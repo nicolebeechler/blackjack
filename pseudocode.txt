@@ -1,0 +1,69 @@
+	/*----- constants -----*/
+
+deck: 4 suits, numbered 2-Ace
+
+	/*----- state variables -----*/
+
+turn: 1/-1
+
+table: 2D Array
+    null/0 => no player at cell
+    1/-1 => winning player
+    1 => player's turn
+    -1 => dealer autoplay
+
+winner:
+    null => no winner
+    1/-1 => winning player
+
+lose:
+    -1 => dealer wins
+    'S' => surrender
+    'T' => tie game
+
+score (chips):
+    player
+    dealer
+
+	/*----- cached elements  -----*/
+
+h1:
+    Player's or Dealer's Turn 
+
+Play Again Button: 
+    Restarts game
+
+Game-play buttons: 
+    Hit
+    Stand
+    Bet
+    Split
+    Double
+    Surrender
+
+	/*----- event listeners -----*/
+
+Game-play buttons: 
+    Hit
+    Stand
+    Bet
+    Split
+    Double
+    Surrender
+
+Play Again Button: 
+    Restarts game ---- && only runs after the game has been played -----
+
+	/*----- functions -----*/
+
+initialize (init()) the game
+
+shuffle deck
+
+set contraints on limits of the deck (only one 52-deck), ex. 4 2's of the four different suits and etc.
+
+checkWinning functions => total = 21; dealer busts
+
+checkLose functions => player busts, player and dealer tie, player surrenders
+
+render functions => table, message, controls (buttons), and score
