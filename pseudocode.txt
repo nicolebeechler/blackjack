@@ -60,7 +60,13 @@ initialize (init()) the game
 
 shuffle deck
 
-set contraints on limits of the deck (only one 52-deck), ex. 4 2's of the four different suits and etc.
+calculate hand value
+    Ace: 11 points if it doesn't bust the hand
+
+Play & Dealer Hands => arrays
+    Hide dealer's first card 
+
+Dealer hits if points are 16 or less
 
 checkWinning functions => total = 21; dealer busts
 
