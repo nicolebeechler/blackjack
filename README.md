@@ -2,7 +2,7 @@
 
 Players try to reach a score of 21.
 
-How to Play ![Blackjack](https://bicyclecards.com/how-to-play/blackjack/)
+How to Play [Blackjack](https://bicyclecards.com/how-to-play/blackjack/)
 
 ### Wireframe
 

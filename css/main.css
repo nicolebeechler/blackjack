@@ -5,34 +5,104 @@
 body {
     height: 100vh;
     margin: 0;
-    font-family: 'Roboto Mono', monospace;
+    font-family: 'Lato', sans-serif;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background: rgb(39,0,117);
+    background: linear-gradient(rgba(29,0,55) 0%, rgba(39,0,117,1) 100%);
 }
 
 header {
-    font-size: 4vmin;
-    color: darkgray;
+    font-weight: 100;
+    font-size: 14vmin;
     letter-spacing: 1vmin;
+    color: #fff;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
   }
 
   h1 {
-    color: grey;
+    color: #fff;
     font-size: 3vmin;
+    
   }
 
-  button {
+  #neonText {
+
+    font-family: 'Dawning of a New Day', cursive;
+    text-shadow: 0 -1px 0 #60f, 0 2px 0 #60f, 0 4px 0 #f09, -2px -2px 15px #60f, 2px -2px 15px #60f, -2px 2px 15px #60f, 2px 2px 15px #60f;
+
+  }
+
+  /* #neonText {
+    animation: pulsate 0.11s ease-in-out infinite alternate;
+  }
+
+  @keyframes pulsate {
+    
+    100% {
+  
+        text-shadow:
+        0 0 4px #fff,
+        0 0 11px #fae7c0,
+        0 0 19px #f0e36f,
+        0 0 40px #f0900f,
+        0 0 80px #96281e,
+        0 0 90px #96281e,
+        0 0 100px #ff0099,
+        0 0 150px #ff0099;
+    
+    }
+    
+    0% {
+  
+      text-shadow:
+      0 0 4px #fff,
+      0 0 10px #fae7c0,
+      0 0 18px #f0e36f,
+      0 0 38px #f0900f,
+      0 0 73px #96281e,
+      0 0 80px #96281e,
+      0 0 94px #ff0099,
+      0 0 140px #ff0099;
+  
+  }
+} */
+
+  #play-btn {
+    background-color: transparent;
+    border: none;
+    font-weight: 100;
+    font-size: 3vmin;
+    letter-spacing: 1vmin;
+    color: #fff;
+    text-transform: uppercase;
+    transition: all .2s ease-in-out;
+
+    background: linear-gradient(white, #60f);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  #play-btn:hover {
+    transform: scale(1.1);
+  }
+
+  /* button {
     margin-top: 4vmin;
     padding: 2vmin;
-    font-size: 2vmin;
+    font-size: 8vmin;
     border-radius: 4vmin;
     border: .1vmin solid grey;
     color: grey;
   }
-  
+
   button:hover {
     color: white;
     background-color: grey;
-  }
+  } */

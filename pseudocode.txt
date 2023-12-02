@@ -6,7 +6,7 @@ deck: 4 suits, numbered 2-Ace
 
 turn: 1/-1
 
-table: 2D Array
+cards: 2D Array
     null/0 => no player at cell
     1/-1 => winning player
     1 => player's turn
@@ -41,6 +41,11 @@ Game-play buttons:
     Double
     Surrender
 
+Card Values
+    ToNumber for 2-10
+    A is 11 if <= 16, else 1
+    J, Q, K = 10
+
 	/*----- event listeners -----*/
 
 Game-play buttons: 
@@ -63,13 +68,41 @@ shuffle deck
 calculate hand value
     Ace: 11 points if it doesn't bust the hand
 
-Play & Dealer Hands => arrays
+Play & Dealer Hands => pull from shuffle array
     Hide dealer's first card 
 
-Dealer hits if points are 16 or less
+Dealer hits if points are 16 or less, unless player has < 20 points
 
 checkWinning functions => total = 21; dealer busts
 
 checkLose functions => player busts, player and dealer tie, player surrenders
 
+Player gameplay options: 
+
+    blackJack
+        Ace + Face-card
+    
+    hit
+        additional card
+    
+    stand
+        no more additional cards, Dealer hand continues
+
+    surrender 
+        player forfeits and loses half of their bet
+
+    doubleDown
+        at 2-card starting hand, option for Player to double their wager then receives only 1 more card for their hand
+
+    split
+        at 2-card starting hand && if cards are the same value, split to two hands and gameply continues for each
+        doubleDown is available
+        additional split is unavilable thereafter
+
+
 render functions => table, message, controls (buttons), and score
+
+payoutCalc 
+    1:1 Player wins hand
+    3:2 Player has Blackjack
+    else Dealer wins all

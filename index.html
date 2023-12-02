@@ -5,15 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Roboto -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/main.css">
+
+    <!-- Codystar LED -->
+    <link href="https://fonts.googleapis.com/css2?family=Codystar&display=swap" rel="stylesheet">
+
+    <!-- New Day (Cursive) -->
+    <link href="https://fonts.googleapis.com/css2?family=Dawning+of+a+New+Day&display=swap" rel="stylesheet">
+
+    <!-- Lato -->
+    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="css/main.css">
     <script defer src="js/main.js"></script>
     <title>🃁 Blackjack</title>
 </head>
 <body>
-    <header>Blackjack</header>
-    <h1>Your Turn</h1>
-
-    <button>PLAY AGAIN</button>
+    <header id="neonText">Blackjack</header>
+    <h1></h1>
+    <div id="dealer-container">
+        <div id="dealerPoints"></div>
+        <div id="dealerHand"></div>
+    </div>
+    <div id="player-container">
+        <div id="playerPoints"></div>
+        <div id="playerHand"></div>
+    </div>
+    <div id="button-container"></div>
+    <button id="play-btn">Play</button>
 </body>
 </html>
