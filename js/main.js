@@ -19,6 +19,8 @@ let dealerHand = [];
 let playerPoints = 0;
 let dealerPoints = 0;
 let message = '';
+let chips = 500; 
+let wagerAmount = 0;
 
 /*----- cached elements  -----*/
 
@@ -62,11 +64,15 @@ function calculateHandValue(hand) {
 let dealerHiddenCard = true; // Track if the dealer's second card is hidden
 
 function updateDisplay() {
-  document.getElementById('playerPoints').innerText = `Player Points: ${playerPoints}`;
-  document.getElementById('dealerPoints').innerText = `Dealer Points: ${dealerPoints}`;
-  document.getElementById('playerHand').innerText = `Player's Hand: ${playerHand.map(card => `${card.value}${card.suit}`).join(', ')}`;
-  document.getElementById('dealerHand').innerText = `Dealer's Hand: ${dealerHand.map(card => `${card.value}${card.suit}`).join(', ')}`;
+  document.getElementById('playerName').innerText = `Player`;
+  document.getElementById('dealerName').innerText = `Dealer`;
+  document.getElementById('playerPoints').innerText = `Points: ${playerPoints}`;
+  document.getElementById('dealerPoints').innerText = `Points: ${dealerPoints}`;
+  document.getElementById('playerHand').innerText = `${playerHand.map(card => `${card.value}${card.suit}`).join(' ')}`;
+  document.getElementById('dealerHand').innerText = `${dealerHand.map(card => `${card.value}${card.suit}`).join(' ')}`;
   document.getElementById('message').innerText = message;
+  document.getElementById('chips').innerText = `Chips: ${chips}`;
+  document.getElementById('wager').innerText = `Wager: ${wagerAmount}`;
 
   if (dealerHand.length >= 2 && playerPoints !== 0) {
     const dealerHandDisplay = dealerHand.map((card, index) => {
@@ -84,15 +90,15 @@ function updateDisplay() {
           return `${card.value}${card.suit}`;
         }
       });
-  
-      document.getElementById('dealerHand').innerText = `Dealer's Hand: ${dealerHandDisplay.join(', ')}`;
+      
+      document.getElementById('dealerHand').innerHTML = `${dealerHandDisplay.join(' ')}`;
     } else {
-      document.getElementById('dealerHand').innerText = `Dealer's Hand: Hidden, ${dealerHand[0].value}${dealerHand[0].suit}`;
+      document.getElementById('dealerHand').innerHTML = `[Hidden], ${dealerHand[0].value}${dealerHand[0].suit}`;
     }
   }
 }
 
-// Game initialization
+// Blackjack game
 let deck = createDeck();
 shuffleDeck(deck);
 
@@ -102,6 +108,7 @@ document.getElementById('playBtn').addEventListener('click', () => {
   playerPoints = 0;
   dealerPoints = 0;
   message = '';
+  wagerAmount = 0;
 
   dealInitialCards();
 
@@ -109,6 +116,16 @@ document.getElementById('playBtn').addEventListener('click', () => {
   dealerPoints = calculateHandValue(dealerHand);
 
   updateDisplay();
+
+  let wagerInput = parseInt(prompt('Enter wager - minimum 25.'));
+
+  if (!isNaN(wagerInput) && wagerInput >= 25 && wagerInput <= chips) {
+    chips -= wagerInput; // Deduct the wager from player's chips
+    wagerAmount += wagerInput; // Display wager amount
+    updateDisplay();
+  } else {
+    document.getElementById('message').innerText = 'Invalid wager amount!';
+  }
 });
 
 function hit() {

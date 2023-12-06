@@ -40,22 +40,30 @@
 <body>
     <header id="neonText">Blackjack</header>
     <h1 id="message"></h1>
-    <div id="dealer-container">
-        <div id="dealerPoints"></div>
-        <div id="dealerHand"></div>
+    <div id="container">
+        <div id="dealer-container">
+            <div id="dealerName"></div>
+            <div id="dealerPoints"></div>
+            <div id="dealerHand"></div>
+        </div>
+        <div id="player-container">
+            <div id="playerName"></div>
+            <div id="playerPoints"></div>
+            <div id="playerHand"></div>
+        </div>
     </div>
-    <div id="wager"></div>
-    <div id="player-container">
-        <div id="playerPoints"></div>
-        <div id="playerHand"></div>
+    <div id="playerBank">
         <div id="chips"></div>
+        <div id="wager"></div>
     </div>
     <div id="button-container">
-    <button id="playBtn">Play</button>
-    <button id="hitBtn">Hit</button>
-    <button id="standBtn">Stand</button>
-    <button id="continueBtn">Continue</button>
-    <button id="replayBtn">Restart</button>
-</div>
+        <button id="playBtn">Play</button>
+        <input type="number" id="wagerInput" placeholder="Enter wager amount">
+        <button id="betBtn">Bet</button>
+        <button id="hitBtn">Hit</button>
+        <button id="standBtn">Stand</button>
+        <button id="continueBtn">Continue</button>
+        <button id="replayBtn">Restart</button>
+    </div>
 </body>
 </html>
