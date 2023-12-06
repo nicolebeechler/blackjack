@@ -10,14 +10,22 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    color: white;
     background: rgb(39,0,117);
-    background: linear-gradient(rgba(29,0,55) 0%, rgba(39,0,117,1) 100%);
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 7px,
+      rgba(0, 0, 0, 0.1) 9px,
+      rgba(0, 0, 0, 0.5) 13px,
+      transparent 13px
+    ), 
+    linear-gradient(rgba(29,0,55) 0%, rgba(39,0,117,1) 100%);
 }
 
 header {
     font-weight: 100;
-    font-size: 14vmin;
-    letter-spacing: 1vmin;
+    font-size: 10vw;
+    /* letter-spacing: 1vmin; */
     color: #fff;
 
     display: flex;
@@ -33,9 +41,15 @@ header {
   }
 
   #neonText {
-
+    /* font-family: 'Lato', sans-serif; */
+    /* text-transform: capitalize; */
+    font-style: oblique;
+    /* font-family: 'Neonderthaw', cursive; */
+    /* text-shadow: 0 0 3vw #2356FF; */
+    /* font-family: 'Warnes', cursive; */
     font-family: 'Dawning of a New Day', cursive;
-    text-shadow: 0 -1px 0 #60f, 0 2px 0 #60f, 0 4px 0 #f09, -2px -2px 15px #60f, 2px -2px 15px #60f, -2px 2px 15px #60f, 2px 2px 15px #60f;
+    text-shadow: 0 -1px 0 #60f, 0 2px 0 #60f, 0 4px 0 #f09, 2px 2px 15px #60f;
+    /* -2px -2px 15px #60f, 2px -2px 15px #60f, -2px 2px 15px #60f, 2px 2px 15px #60f; */
 
   }
 
@@ -74,7 +88,7 @@ header {
   }
 } */
 
-  #play-btn {
+  #playBtn {
     background-color: transparent;
     border: none;
     font-weight: 100;
@@ -89,9 +103,11 @@ header {
     -webkit-text-fill-color: transparent;
   }
   
-  #play-btn:hover {
+  #playBtn:hover {
     transform: scale(1.1);
   }
+
+
 
   /* button {
     margin-top: 4vmin;

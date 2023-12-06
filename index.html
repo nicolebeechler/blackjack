@@ -6,6 +6,19 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
+
+    <!-- Warnes -->
+    <link href="https://fonts.googleapis.com/css2?family=Warnes&display=swap" rel="stylesheet">
+
+    <!-- Vibur -->
+    <link href="https://fonts.googleapis.com/css2?family=Vibur&display=swap" rel="stylesheet">
+
+    <!-- Quicksand -->
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+
+    <!-- Sacramento -->
+    <link href="https://fonts.googleapis.com/css2?family=Sacramento&display=swap" rel="stylesheet">
+    
     <!-- Roboto -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap" rel="stylesheet">
 
@@ -18,22 +31,31 @@
     <!-- Lato -->
     <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
 
+    <!-- Neonderthaw -->
+    <link href="https://fonts.googleapis.com/css2?family=Neonderthaw&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
     <script defer src="js/main.js"></script>
     <title>🃁 Blackjack</title>
 </head>
 <body>
     <header id="neonText">Blackjack</header>
-    <h1></h1>
+    <h1 id="message"></h1>
     <div id="dealer-container">
         <div id="dealerPoints"></div>
         <div id="dealerHand"></div>
     </div>
+    <div id="wager"></div>
     <div id="player-container">
         <div id="playerPoints"></div>
         <div id="playerHand"></div>
+        <div id="chips"></div>
     </div>
-    <div id="button-container"></div>
-    <button id="play-btn">Play</button>
+    <div id="button-container">
+    <button id="playBtn">Play</button>
+    <button id="hitBtn">Hit</button>
+    <button id="standBtn">Stand</button>
+    <button id="continueBtn">Continue</button>
+    <button id="replayBtn">Restart</button>
+</div>
 </body>
 </html>
