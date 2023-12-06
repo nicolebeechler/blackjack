@@ -93,7 +93,7 @@ function updateDisplay() {
       
       document.getElementById('dealerHand').innerHTML = `${dealerHandDisplay.join(' ')}`;
     } else {
-      document.getElementById('dealerHand').innerHTML = `[Hidden], ${dealerHand[0].value}${dealerHand[0].suit}`;
+      document.getElementById('dealerHand').innerHTML = `Hidden, ${dealerHand[0].value}${dealerHand[0].suit}`;
     }
   }
 }
@@ -121,9 +121,11 @@ document.getElementById('playBtn').addEventListener('click', () => {
 
   if (!isNaN(wagerInput) && wagerInput >= 25 && wagerInput <= chips) {
     chips -= wagerInput; // Deduct the wager from player's chips
-    wagerAmount += wagerInput; // Display wager amount
+    wagerAmount += wagerInput; // Increase wager amount
     updateDisplay();
   } else {
+    // rewrite to prompt user again
+    // add: message & block player from betting and playing if chips < 25
     document.getElementById('message').innerText = 'Invalid wager amount!';
   }
 });
@@ -146,24 +148,31 @@ function stand() {
     const newCard = deck.shift();
     dealerHand.push(newCard);
     dealerPoints = calculateHandValue(dealerHand);
-    dealerHiddenCard = false;
+    dealerHiddenCard = false; // not working
   }
 
   if (dealerPoints > 21 || dealerPoints < playerPoints) {
     message = 'Player wins!';
+    // add payout rules, 3:2 Blackjack, 1:1 Win, Standoff return wager
   } else if (dealerPoints > playerPoints) {
     message = 'Dealer wins!';
   } else {
-    message = 'It\'s a tie!';
+    message = 'Standoff';
   }
 
   updateDisplay();
 }
 
+// add function double down
+
+// add funtion split (optional)
+
+// re-work to get buttons to appear at appropriate stages in gameplay
 document.getElementById('playBtn').addEventListener('click', () => {
 
   updateDisplay();
 
+  // rework to append child and add new buttons
   document.getElementById('hitBtn').addEventListener('click', hit);
   document.getElementById('standBtn').addEventListener('click', stand);
 });
@@ -174,6 +183,7 @@ function continueGame() {
   playerPoints = 0;
   dealerPoints = 0;
   message = '';
+  // wagerAmount = 0; // if added, play button => wager display will always be 0
 
   dealInitialCards();
 
@@ -183,14 +193,57 @@ function continueGame() {
   updateDisplay();
 }
 
-function replayGame() {
-  deck = createDeck();
-  shuffleDeck(deck);
+// does this all need to be re-written?
+// function restartGame() {
+//   deck = createDeck();
+//   shuffleDeck(deck);
 
+// document.getElementById('playBtn').addEventListener('click', () => {
+//   playerHand = [];
+//   dealerHand = [];
+//   playerPoints = 0;
+//   dealerPoints = 0;
+//   message = '';
+//   wagerAmount = 0;
+
+//   dealInitialCards();
+
+//   playerPoints = calculateHandValue(playerHand);
+//   dealerPoints = calculateHandValue(dealerHand);
+
+//   updateDisplay();
+
+//   let wagerInput = parseInt(prompt('Enter wager - minimum 25.'));
+
+//   if (!isNaN(wagerInput) && wagerInput >= 25 && wagerInput <= chips) {
+//     chips -= wagerInput; // Deduct the wager from player's chips
+//     wagerAmount += wagerInput; // Increase wager amount
+//     updateDisplay();
+//   } else {
+//     // rewrite to prompt user again
+//     // add: message & block player from betting and playing if chips < 25
+//     document.getElementById('message').innerText = 'Invalid wager amount!';
+//   }
+// });
+// }
+
+
+// update innerText = Continue (Play/Continue/Play Again [if player loses] Button)
+
+// execute continueGame()
+let firstGame = true; // Track if it's the first game
+
+document.getElementById('playBtn').addEventListener('click', () => {
+  if (firstGame) {
+    firstGame = false; // Update the flag
+    document.getElementById('playBtn').innerText = 'Continue'; // Change the button text
+  }
+  if (dealerPoints >= 17 && message === '') {
+    continueButton.style.display = 'block';
+  } else {
+    continueButton.style.display = 'none';
+  }
   continueGame();
-}
-
-document.getElementById('continueBtn').addEventListener('click', continueGame);
-document.getElementById('replayBtn').addEventListener('click', replayGame);
+});
 
 document.getElementById('playBtn').addEventListener('click', continueGame);
