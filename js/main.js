@@ -26,6 +26,12 @@ let wagerAmount = 0;
 
 /*----- event listeners -----*/
 
+const playBtn = document.getElementById('playBtn');
+const continueBtn = document.getElementById('continueBtn');
+const hitBtn = document.getElementById('hitBtn');
+const standBtn = document.getElementById('standBtn');
+const restartBtn = document.getElementById('restartBtn');
+
 /*----- functions -----*/
 
 function createDeck() {
@@ -53,6 +59,7 @@ function dealInitialCards() {
   dealerHand.push(...deck.splice(0, 2));
 }
 
+// add separate function for dealer? hidden card is included in initial total
 function calculateHandValue(hand) {
   let sum = hand.reduce((total, card) => total + cardValues[card.value], 0);
   hand.filter(card => card.value === 'A').forEach(_ => {
@@ -74,6 +81,8 @@ function updateDisplay() {
   document.getElementById('chips').innerText = `Chips: ${chips}`;
   document.getElementById('wager').innerText = `Wager: ${wagerAmount}`;
 
+  let dealerHandDisplay = [];
+
   if (dealerHand.length >= 2 && playerPoints !== 0) {
     const dealerHandDisplay = dealerHand.map((card, index) => {
       if (index === 1 && dealerHiddenCard) {
@@ -90,7 +99,7 @@ function updateDisplay() {
           return `${card.value}${card.suit}`;
         }
       });
-      
+      // create css and call css class in this js to make cards have style
       document.getElementById('dealerHand').innerHTML = `${dealerHandDisplay.join(' ')}`;
     } else {
       document.getElementById('dealerHand').innerHTML = `Hidden, ${dealerHand[0].value}${dealerHand[0].suit}`;
@@ -102,7 +111,8 @@ function updateDisplay() {
 let deck = createDeck();
 shuffleDeck(deck);
 
-document.getElementById('playBtn').addEventListener('click', () => {
+function init() {
+  // Reset game state
   playerHand = [];
   dealerHand = [];
   playerPoints = 0;
@@ -110,13 +120,17 @@ document.getElementById('playBtn').addEventListener('click', () => {
   message = '';
   wagerAmount = 0;
 
+  // Deal initial cards for the player and dealer
   dealInitialCards();
 
+  // Calculate initial points for player and dealer
   playerPoints = calculateHandValue(playerHand);
   dealerPoints = calculateHandValue(dealerHand);
 
+  // Update the display to show the hands, points, and other relevant information
   updateDisplay();
 
+  // Prompt for the wager input
   let wagerInput = parseInt(prompt('Enter wager - minimum 25.'));
 
   if (!isNaN(wagerInput) && wagerInput >= 25 && wagerInput <= chips) {
@@ -124,11 +138,35 @@ document.getElementById('playBtn').addEventListener('click', () => {
     wagerAmount += wagerInput; // Increase wager amount
     updateDisplay();
   } else {
-    // rewrite to prompt user again
-    // add: message & block player from betting and playing if chips < 25
-    document.getElementById('message').innerText = 'Invalid wager amount!';
+    // Prompt again if the input is invalid
+    // Add a message and prevent the player from betting and playing if chips < 25
+    while (isNaN(wagerInput) || wagerInput < 25 || wagerInput > chips) {
+      wagerInput = parseInt(prompt('Invalid wager amount! Enter wager - minimum 25.'));
+    }
+    chips -= wagerInput; // Deduct the wager from player's chips
+    wagerAmount += wagerInput; // Increase wager amount
+    updateDisplay();
   }
-});
+}
+
+// Event listener for the play button
+document.getElementById('playBtn').addEventListener('click', init);
+
+// // // // // // // //
+
+function blackjack() {
+  if (playerPoints === 21) {
+    message = 'Blackjack! Player wins!';
+    updateDisplay();
+    return;
+  } else if (dealerPoints === 21) {
+    message = 'Dealer has Blackjack! Dealer wins!';
+    updateDisplay();
+    return;
+  }
+
+  updateDisplay();
+}
 
 function hit() {
   const newCard = deck.shift();
@@ -160,6 +198,12 @@ function stand() {
     message = 'Standoff';
   }
 
+  document.getElementById('playBtn').style.display = 'none';
+  document.getElementById('hitBtn').style.display = 'none';
+  document.getElementById('standBtn').style.display = 'none';
+  document.getElementById('continueBtn').style.display = 'block';
+  document.getElementById('restartBtn').style.display = 'block';
+
   updateDisplay();
 }
 
@@ -172,18 +216,23 @@ document.getElementById('playBtn').addEventListener('click', () => {
 
   updateDisplay();
 
-  // rework to append child and add new buttons
   document.getElementById('hitBtn').addEventListener('click', hit);
   document.getElementById('standBtn').addEventListener('click', stand);
+
+  document.getElementById('playBtn').style.display = 'none';
+  document.getElementById('hitBtn').style.display = 'block';
+  document.getElementById('standBtn').style.display = 'block';
+  document.getElementById('continueBtn').style.display = 'none';
+  document.getElementById('restartBtn').style.display = 'none';
 });
 
 function continueGame() {
+  // Clear the hands, points, and message, do not reset chips
   playerHand = [];
   dealerHand = [];
   playerPoints = 0;
   dealerPoints = 0;
   message = '';
-  // wagerAmount = 0; // if added, play button => wager display will always be 0
 
   dealInitialCards();
 
@@ -191,59 +240,33 @@ function continueGame() {
   dealerPoints = calculateHandValue(dealerHand);
 
   updateDisplay();
+
+  init();
 }
 
-// does this all need to be re-written?
-// function restartGame() {
-//   deck = createDeck();
-//   shuffleDeck(deck);
 
-// document.getElementById('playBtn').addEventListener('click', () => {
-//   playerHand = [];
-//   dealerHand = [];
-//   playerPoints = 0;
-//   dealerPoints = 0;
-//   message = '';
-//   wagerAmount = 0;
+function restartGame() {
+  // Reset all
+  playerHand = [];
+  dealerHand = [];
+  playerPoints = 0;
+  dealerPoints = 0;
+  message = '';
+  chips = 500;
+  wagerAmount = 0;
 
-//   dealInitialCards();
+  deck = createDeck();
+  shuffleDeck(deck);
 
-//   playerPoints = calculateHandValue(playerHand);
-//   dealerPoints = calculateHandValue(dealerHand);
+  dealInitialCards();
 
-//   updateDisplay();
+  playerPoints = calculateHandValue(playerHand);
+  dealerPoints = calculateHandValue(dealerHand);
 
-//   let wagerInput = parseInt(prompt('Enter wager - minimum 25.'));
+  updateDisplay();
 
-//   if (!isNaN(wagerInput) && wagerInput >= 25 && wagerInput <= chips) {
-//     chips -= wagerInput; // Deduct the wager from player's chips
-//     wagerAmount += wagerInput; // Increase wager amount
-//     updateDisplay();
-//   } else {
-//     // rewrite to prompt user again
-//     // add: message & block player from betting and playing if chips < 25
-//     document.getElementById('message').innerText = 'Invalid wager amount!';
-//   }
-// });
-// }
+  init();
+}
 
-
-// update innerText = Continue (Play/Continue/Play Again [if player loses] Button)
-
-// execute continueGame()
-let firstGame = true; // Track if it's the first game
-
-document.getElementById('playBtn').addEventListener('click', () => {
-  if (firstGame) {
-    firstGame = false; // Update the flag
-    document.getElementById('playBtn').innerText = 'Continue'; // Change the button text
-  }
-  if (dealerPoints >= 17 && message === '') {
-    continueButton.style.display = 'block';
-  } else {
-    continueButton.style.display = 'none';
-  }
-  continueGame();
-});
-
-document.getElementById('playBtn').addEventListener('click', continueGame);
+document.getElementById('continueBtn').addEventListener('click', continueGame);
+document.getElementById('restartBtn').addEventListener('click', restartGame);
