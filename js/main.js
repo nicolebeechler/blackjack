@@ -24,6 +24,10 @@ let wagerAmount = 0;
 
 /*----- cached elements  -----*/
 
+// create div with card elements
+// const cardEl = document.createElement('div');
+// cardEl = document.classList.add('card');
+
 /*----- event listeners -----*/
 
 const playBtn = document.getElementById('playBtn');
@@ -68,6 +72,29 @@ function calculateHandValue(hand) {
   return sum;
 }
 
+function calculateDealerHandValue() {
+  let sum = 0;
+  let hasAce = false;
+
+  for (let i = 0; i < dealerHand.length; i++) {
+    const card = dealerHand[i];
+    // Skip adding dealer's card values if one of them is hidden
+    if (!(i === 1 && dealerHiddenCard)) {
+      sum += cardValues[card.value];
+      if (card.value === 'A') {
+        hasAce = true;
+      }
+    }
+  }
+
+  if (hasAce && sum > 21) {
+    sum -= 10;
+  }
+
+  return sum;
+}
+
+
 let dealerHiddenCard = true; // Track if the dealer's second card is hidden
 
 function updateDisplay() {
@@ -94,7 +121,7 @@ function updateDisplay() {
 
     document.getElementById('dealerHand').innerHTML = `${dealerHandDisplay.join(' ')}`;
   } else {
-    document.getElementById('dealerHand').innerHTML = `Hidden, ${dealerHand[0].value}${dealerHand[0].suit}`;
+    document.getElementById('dealerHand').innerHTML = `${dealerHand[0].value}${dealerHand[0].suit}`;
   }
 }
 
@@ -114,7 +141,7 @@ function init() {
   dealInitialCards();
 
   playerPoints = calculateHandValue(playerHand);
-  dealerPoints = calculateHandValue(dealerHand);
+  dealerPoints = calculateDealerHandValue(dealerHand);
 
   updateDisplay();
 
@@ -211,7 +238,7 @@ function stand() {
   while (dealerPoints < 17) {
     const newCard = deck.shift();
     dealerHand.push(newCard);
-    dealerPoints = calculateHandValue(dealerHand);
+    dealerPoints = calculateDealerHandValue(dealerHand);
     dealerHiddenCard = false;
 
   }
@@ -239,7 +266,6 @@ function stand() {
 
 // add funtion split (optional)
 
-// re-work to get buttons to appear at appropriate stages in gameplay
 document.getElementById('playBtn').addEventListener('click', () => {
 
   updateDisplay();
@@ -262,10 +288,12 @@ function continueGame() {
   dealerPoints = 0;
   message = '';
 
+  dealerHiddenCard = true;
+
   dealInitialCards();
 
   playerPoints = calculateHandValue(playerHand);
-  dealerPoints = calculateHandValue(dealerHand);
+  dealerPoints = calculateDealerHandValue(dealerHand);
 
   updateDisplay();
 
@@ -292,10 +320,12 @@ function restartGame() {
   deck = createDeck();
   shuffleDeck(deck);
 
+  dealerHiddenCard = true;
+
   dealInitialCards();
 
   playerPoints = calculateHandValue(playerHand);
-  dealerPoints = calculateHandValue(dealerHand);
+  dealerPoints = calculateDealerHandValue(dealerHand);
 
   updateDisplay();
 
