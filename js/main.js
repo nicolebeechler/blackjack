@@ -63,7 +63,6 @@ function dealInitialCards() {
   dealerHand.push(...deck.splice(0, 2));
 }
 
-// add separate function for dealer? hidden card is included in initial total
 function calculateHandValue(hand) {
   let sum = hand.reduce((total, card) => total + cardValues[card.value], 0);
   hand.filter(card => card.value === 'A').forEach(_ => {
@@ -102,12 +101,30 @@ function updateDisplay() {
   document.getElementById('dealerName').innerText = `Dealer`;
   document.getElementById('playerPoints').innerText = `Points: ${playerPoints}`;
   document.getElementById('dealerPoints').innerText = `Points: ${dealerPoints}`;
-  document.getElementById('playerHand').innerText = `${playerHand.map(card => `${card.value}${card.suit}`).join(' ')}`;
-  document.getElementById('dealerHand').innerText = `${dealerHand.map(card => `${card.value}${card.suit}`).join(' ')}`;
   document.getElementById('message').innerText = message;
   document.getElementById('chips').innerText = `Chips: ${chips}`;
   document.getElementById('wager').innerText = `Wager: ${wagerAmount}`;
+  
+  document.getElementById('playerHand').innerHTML = `${playerHand.map(card => `${card.value}${card.suit}`).join(' ')}`;
+  
+  const playerHandElement = document.getElementById('playerHand');
+  playerHandElement.innerHTML = ''; // Clear the existing content
 
+  const playerHandCards = playerHand.map(card => {
+    const cardEl = document.createElement('div');
+    cardEl.textContent = `${card.value}${card.suit}`;
+    cardEl.classList.add('card'); // Adding the 'card' class to each card element
+    return cardEl;
+  });
+
+  playerHandCards.forEach(cardEl => {
+    playerHandElement.appendChild(cardEl);
+    playerHandElement.appendChild(document.createTextNode(' ')); // Add space between cards
+  });
+
+
+  document.getElementById('dealerHand').innerHTML = `${dealerHand.map(card => `${card.value}${card.suit}`).join(' ')}`;
+  
   let dealerHandDisplay = [];
 
   if (dealerHand.length >= 2 && playerPoints !== 0) {
@@ -123,6 +140,30 @@ function updateDisplay() {
   } else {
     document.getElementById('dealerHand').innerHTML = `${dealerHand[0].value}${dealerHand[0].suit}`;
   }
+
+  const dealerHandElement = document.getElementById('dealerHand');
+  dealerHandElement.innerHTML = ''; 
+
+  const dealerHandCards = dealerHand.map((card, index) => {
+    const cardEl = document.createElement('div');
+
+    if (index === 1 && dealerHiddenCard) {
+      cardEl.textContent = 'Hidden';
+      cardEl.setAttribute('id', 'hidden');
+    } else {
+      cardEl.textContent = `${card.value}${card.suit}`;
+    }
+
+    cardEl.classList.add('card'); 
+    return cardEl;
+  });
+
+  dealerHandCards.forEach((cardEl, index) => {
+    dealerHandElement.appendChild(cardEl);
+    if (index < dealerHand.length - 1) {
+      dealerHandElement.appendChild(document.createTextNode(' ')); 
+    }
+  });
 }
 
 // Blackjack game
