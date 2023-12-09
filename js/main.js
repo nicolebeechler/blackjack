@@ -1,7 +1,3 @@
-// alert('js is loaded')
-
-/*----- constants -----*/
-
 const PLAYERS = {
   '1': 'Player',
   '-1': 'Dealer'
@@ -11,8 +7,6 @@ const cardValues = {
   '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '10': 10,
   'J': 10, 'Q': 10, 'K': 10, 'A': 11 
 };
-
-/*----- state variables -----*/
 
 let playerHand = [];
 let dealerHand = [];
@@ -26,14 +20,6 @@ let losses = 0;
 let standoffs = 0;
 let blackjacks = 0;
 
-/*----- cached elements  -----*/
-
-// create div with card elements
-// const cardEl = document.createElement('div');
-// cardEl = document.classList.add('card');
-
-/*----- event listeners -----*/
-
 const playBtn = document.getElementById('playBtn');
 const continueBtn = document.getElementById('continueBtn');
 const hitBtn = document.getElementById('hitBtn');
@@ -41,12 +27,10 @@ const standBtn = document.getElementById('standBtn');
 const restartBtn = document.getElementById('restartBtn');
 const doubleDownBtn = document.getElementById('doubleDownBtn');
 
-/*----- functions -----*/
-
 function createDeck() {
   let deck = [];
   const suits = ['♣', '♠', '♦', '♥'];
-  for (let i = 0; i < 6; i++) { // Create 6 decks
+  for (let i = 0; i < 6; i++) { 
     for (let suit of suits) {
       for (let value in cardValues) {
         deck.push({ suit, value });
@@ -71,7 +55,7 @@ function dealInitialCards() {
 function calculateHandValue(hand) {
   let sum = hand.reduce((total, card) => total + cardValues[card.value], 0);
   hand.filter(card => card.value === 'A').forEach(_ => {
-    if (sum > 21) sum -= 10; // Change Ace value from 11 to 1 if needed
+    if (sum > 21) sum -= 10; 
   });
   return sum;
 }
@@ -82,7 +66,6 @@ function calculateDealerHandValue() {
 
   for (let i = 0; i < dealerHand.length; i++) {
     const card = dealerHand[i];
-    // Skip adding dealer's card values if one of them is hidden
     if (!(i === 1 && dealerHiddenCard)) {
       sum += cardValues[card.value];
       if (card.value === 'A') {
@@ -98,7 +81,7 @@ function calculateDealerHandValue() {
   return sum;
 }
 
-let dealerHiddenCard = true; // Track if the dealer's second card is hidden
+let dealerHiddenCard = true; 
 
 function updateDisplay() {
   document.getElementById('playerName').innerText = `Player`;
@@ -109,16 +92,13 @@ function updateDisplay() {
   document.getElementById('chips').innerText = `Chips: ${chips}`;
   document.getElementById('wager').innerText = `Wager: ${wagerAmount}`;
   document.getElementById('stats').innerHTML = `
-    Wins: ${wins} <br>
-    Blackjacks: ${blackjacks} <br>
-    Losses: ${losses} <br>
-    Standoffs: ${standoffs}
+    Wins: ${wins} &nbsp Blackjacks: ${blackjacks} &nbsp Losses: ${losses} &nbsp Standoffs: ${standoffs}
     `;
   
   document.getElementById('playerHand').innerHTML = `${playerHand.map(card => `${card.value}${card.suit}`).join(' ')}`;
   
   const playerHandElement = document.getElementById('playerHand');
-  playerHandElement.innerHTML = ''; // Clear the existing content
+  playerHandElement.innerHTML = ''; 
 
   const playerHandCards = playerHand.map(card => {
     const cardEl = document.createElement('div');
@@ -129,7 +109,7 @@ function updateDisplay() {
 
   playerHandCards.forEach(cardEl => {
     playerHandElement.appendChild(cardEl);
-    playerHandElement.appendChild(document.createTextNode(' ')); // Add space between cards
+    playerHandElement.appendChild(document.createTextNode(' ')); 
   });
 
   document.getElementById('dealerHand').innerHTML = `${dealerHand.map(card => `${card.value}${card.suit}`).join(' ')}`;
@@ -175,63 +155,47 @@ function updateDisplay() {
   });
 }
 
-// Blackjack game
 let deck = createDeck();
 shuffleDeck(deck);
 
-function blackjack() { 
+function blackjack() {
   if (playerPoints === 21) {
     message = 'Blackjack! Player wins!';
-    chips += wagerAmount * 1.5; // payout 3:2
+    chips += wagerAmount * 1.5; 
     wins++;
     blackjacks++;
-    updateDisplay();
+    updateDisplay(); 
 
-    const isPlayersTurnOver = (message === 'Blackjack! Player wins!');
-
-    if (isPlayersTurnOver) {
+    if (message === 'Blackjack! Player wins!') {
       document.getElementById('playBtn').style.display = 'none';
       document.getElementById('hitBtn').style.display = 'none';
       document.getElementById('standBtn').style.display = 'none';
       document.getElementById('continueBtn').style.display = 'block';
       document.getElementById('restartBtn').style.display = 'block';
       document.getElementById('doubleDownBtn').style.display = 'none';
-      updateDisplay();
     }
-
-    return;
-
   } else if (dealerPoints === 21) {
-
     message = 'Dealer has Blackjack! Dealer wins!';
     losses++;
-
     updateDisplay();
 
-    const isDealersTurnOver = (message === 'Blackjack! Dealer wins!');
-
-    if (isDealersTurnOver) {
-
+    if (message === 'Dealer has Blackjack! Dealer wins!') {
       document.getElementById('playBtn').style.display = 'none';
       document.getElementById('hitBtn').style.display = 'none';
       document.getElementById('standBtn').style.display = 'none';
       document.getElementById('continueBtn').style.display = 'block';
       document.getElementById('restartBtn').style.display = 'block';
       document.getElementById('doubleDownBtn').style.display = 'none';
-      updateDisplay();
-
     }
-
-    return;
-
   }
 
-  updateDisplay();
-
+  updateDisplay(); 
+  return;
 }
 
+let firstHit = false;
+
 function init() {
-  // Set game default
   playerHand = [];
   dealerHand = [];
   playerPoints = 0;
@@ -246,7 +210,9 @@ function init() {
 
   updateDisplay();
 
-  let wagerInput = parseInt(prompt('Enter wager - minimum 25.'));
+  let firstHit = false;
+
+  let wagerInput = parseInt(prompt('Enter bet - minimum 25.'));
 
   if (!isNaN(wagerInput) && wagerInput >= 25 && wagerInput <= chips) {
 
@@ -257,23 +223,17 @@ function init() {
   } else {
 
     while (isNaN(wagerInput) || wagerInput < 25 || wagerInput > chips) {
-      wagerInput = parseInt(prompt('Invalid wager amount! Enter wager - minimum 25.'));
+      wagerInput = parseInt(prompt('Enter bet - minimum 25.'));
     }
     chips -= wagerInput; 
     wagerAmount += wagerInput; 
     updateDisplay();
   }
-  document.getElementById('stats').innerHTML = `
-  Wins: ${wins} <br>
-  Losses: ${losses} <br>
-  Standoffs: ${standoffs}
-`;
 blackjack();
 updateDisplay();
 }
 
 document.getElementById('playBtn').addEventListener('click', init);
-
 
 function hit() {
   const newCard = deck.shift();
@@ -281,15 +241,18 @@ function hit() {
   playerPoints = calculateHandValue(playerHand);
   updateDisplay();
 
+  if (!firstHit) {
+    firstHit = true;
+    document.getElementById('doubleDownBtn').style.display = 'none';
+    updateDisplay();
+  }
+
   if (playerPoints > 21) {
     message = 'Player busts! Dealer wins!';
     losses++;
-
     updateDisplay();
 
-    const isPlayersTurnOver = (message === 'Player busts! Dealer wins!');
-
-    if (isPlayersTurnOver) {
+    if (message.includes('busts')) {
       document.getElementById('playBtn').style.display = 'none';
       document.getElementById('hitBtn').style.display = 'none';
       document.getElementById('standBtn').style.display = 'none';
@@ -297,8 +260,7 @@ function hit() {
       document.getElementById('restartBtn').style.display = 'block';
       document.getElementById('doubleDownBtn').style.display = 'none';
     }
-
-    return; // Player's turn is over
+    return;
   }
 }
 
@@ -318,19 +280,19 @@ function stand() {
     message = 'Both bust!';
     chips += wagerAmount;
     losses++;
-  } else if (playerPoints > 21 && dealerPoints <=21 ) { // just added
+  } else if (playerPoints > 21 && dealerPoints <=21 ) { 
     message = 'Dealer wins!';
     losses++;
   } else if (dealerPoints > 21 || dealerPoints < playerPoints) {
     message = 'Player wins!';
-    chips += wagerAmount * 2; // 1:1 payout for
+    chips += wagerAmount * 2; 
     wins++;
   } else if (dealerPoints > playerPoints) {
     message = 'Dealer wins!';
     losses++;
   } else {
     message = 'Standoff';
-    chips += wagerAmount; // return player's wager
+    chips += wagerAmount; 
     standoffs++;
   }
 
@@ -345,8 +307,8 @@ function stand() {
 }
 
 function doubleDown() {
-  chips -= wagerAmount; // Double the wager
-  wagerAmount *= 2; // Double the wager amount
+  chips -= wagerAmount; 
+  wagerAmount *= 2; 
 
   const newCard = deck.shift();
   playerHand.push(newCard);
@@ -356,17 +318,20 @@ function doubleDown() {
   stand();
 }
 
+function hideDoubleDownBtn() {
+  document.getElementById('doubleDownBtn').style.display = 'none';
+};
 
 document.getElementById('playBtn').addEventListener('click', () => {
 
   updateDisplay();
 
   document.getElementById('doubleDownBtn').addEventListener('click', doubleDown);
-  document.getElementById('hitBtn').addEventListener('click', hit);
+  document.getElementById('hitBtn').addEventListener('click', hit, hideDoubleDownBtn);
   document.getElementById('standBtn').addEventListener('click', stand);
 
   document.getElementById('playBtn').style.display = 'none';
-  document.getElementById('doubleDownBtn').style.display = 'block';
+  document.getElementById('doubleDownBtn').style.display = 'none';
   document.getElementById('hitBtn').style.display = 'block';
   document.getElementById('standBtn').style.display = 'block';
   document.getElementById('continueBtn').style.display = 'none';
@@ -374,7 +339,6 @@ document.getElementById('playBtn').addEventListener('click', () => {
 });
 
 function continueGame() {
-  // Clear the hands, points, and message, do not reset chips
   playerHand = [];
   dealerHand = [];
   playerPoints = 0;
@@ -390,6 +354,8 @@ function continueGame() {
 
   updateDisplay();
 
+  let firstHit = false;
+
   init();
 
   document.getElementById('playBtn').style.display = 'none';
@@ -398,13 +364,10 @@ function continueGame() {
   document.getElementById('standBtn').style.display = 'block';
   document.getElementById('continueBtn').style.display = 'none';
   document.getElementById('restartBtn').style.display = 'none';
-  
-  
 }
 
 
 function restartGame() {
-  // Reset all
   playerHand = [];
   dealerHand = [];
   playerPoints = 0;
@@ -432,6 +395,7 @@ function restartGame() {
 
   document.getElementById('playBtn').style.display = 'none';
   document.getElementById('doubleDownBtn').style.display = 'none';
+  document.getElementById('doubleDownBtn').style.display = 'block';
   document.getElementById('hitBtn').style.display = 'block';
   document.getElementById('standBtn').style.display = 'block';
   document.getElementById('continueBtn').style.display = 'none';
