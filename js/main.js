@@ -373,6 +373,7 @@ function restartGame() {
   wagerAmount = 0;
   wins = 0;
   losses = 0;
+  blackjacks = 0;
   standoffs = 0;
 
   deck = createDeck();
