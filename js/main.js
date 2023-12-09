@@ -122,7 +122,6 @@ function updateDisplay() {
     playerHandElement.appendChild(document.createTextNode(' ')); // Add space between cards
   });
 
-
   document.getElementById('dealerHand').innerHTML = `${dealerHand.map(card => `${card.value}${card.suit}`).join(' ')}`;
   
   let dealerHandDisplay = [];
@@ -130,7 +129,7 @@ function updateDisplay() {
   if (dealerHand.length >= 2 && playerPoints !== 0) {
     dealerHandDisplay = dealerHand.map((card, index) => {
       if (index === 1 && dealerHiddenCard) {
-        return 'Hidden';
+        return 'Hidden'; 
       } else {
         return `${card.value}${card.suit}`;
       }
@@ -276,12 +275,13 @@ function hit() {
 }
 
 function stand() {
+
+  dealerHiddenCard = false;
+
   while (dealerPoints < 17) {
     const newCard = deck.shift();
     dealerHand.push(newCard);
     dealerPoints = calculateDealerHandValue(dealerHand);
-    dealerHiddenCard = false;
-
   }
 
   if (dealerPoints > 21 || dealerPoints < playerPoints) {
@@ -381,3 +381,33 @@ function restartGame() {
 
 document.getElementById('continueBtn').addEventListener('click', continueGame);
 document.getElementById('restartBtn').addEventListener('click', restartGame);
+
+
+// // add to init, continue, and restart as applicable
+
+
+// let wins = 0;
+// let losses = 0;
+// let standoffs = 0;
+
+// // Inside the game logic where the outcomes are determined:
+
+// if (dealerPoints > 21 || dealerPoints < playerPoints) {
+//   message = 'Player wins!';
+//   wins++; // Increment wins counter
+//   // Rest of your logic...
+// } else if (dealerPoints > playerPoints) {
+//   message = 'Dealer wins!';
+//   losses++; // Increment losses counter
+//   // Rest of your logic...
+// } else {
+//   message = 'Standoff';
+//   standoffs++; // Increment standoffs counter
+//   // Rest of your logic...
+// }
+
+// document.getElementById('status').innerHTML = `
+//   Wins: ${wins} <br>
+//   Losses: ${losses} <br>
+//   Standoffs: ${standoffs}
+// `;
