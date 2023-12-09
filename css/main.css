@@ -99,6 +99,10 @@ h1 {
   background-repeat: repeat;
 } */
 
+#message {
+  height: 5vh;
+}
+
 #dealer-container {
   display: flex;
   flex-direction: row;
