@@ -193,7 +193,7 @@ function blackjack() {
   return;
 }
 
-let firstHit = true;
+let firstHit = false;
 
 function init() {
   playerHand = [];
