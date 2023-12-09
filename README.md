@@ -4,7 +4,7 @@ Players try to reach a score of 21.
 
 ## Getting Started
 
-Play the game.
+[Play the game.](https://nicolebeechler.github.io/blackjack/)
 
 #### Gameplay:
 * Hit: Draw an additional card. 
