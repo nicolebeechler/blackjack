@@ -193,7 +193,7 @@ function blackjack() {
   return;
 }
 
-let firstHit = false;
+let firstHit = true;
 
 function init() {
   playerHand = [];
@@ -209,8 +209,6 @@ function init() {
   dealerPoints = calculateDealerHandValue(dealerHand);
 
   updateDisplay();
-
-  let firstHit = false;
 
   let wagerInput = parseInt(prompt('Enter bet - minimum 25.'));
 
@@ -242,7 +240,7 @@ function hit() {
   updateDisplay();
 
   if (!firstHit) {
-    firstHit = true;
+    firstHit = false;
     document.getElementById('doubleDownBtn').style.display = 'none';
     updateDisplay();
   }
@@ -353,8 +351,6 @@ function continueGame() {
   dealerPoints = calculateDealerHandValue(dealerHand);
 
   updateDisplay();
-
-  let firstHit = false;
 
   init();
 

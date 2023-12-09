@@ -7,9 +7,9 @@ Players try to reach a score of 21.
 Play the game.
 
 #### Gameplay:
-Hit
-Stand
-Double-down
+* Hit: Draw an additional card. 
+* Stand: No additional cards will be dealt. 
+* Double-down: Double your bet, one extra card will be dealt.
 
 #### Payout: 
 * Blackjack pays 3:2
