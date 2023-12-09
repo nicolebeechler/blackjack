@@ -21,6 +21,9 @@ let dealerPoints = 0;
 let message = '';
 let chips = 500; 
 let wagerAmount = 0;
+let wins = 0;
+let losses = 0;
+let standoffs = 0;
 
 /*----- cached elements  -----*/
 
@@ -104,6 +107,11 @@ function updateDisplay() {
   document.getElementById('message').innerText = message;
   document.getElementById('chips').innerText = `Chips: ${chips}`;
   document.getElementById('wager').innerText = `Wager: ${wagerAmount}`;
+  document.getElementById('status').innerHTML = `
+    Wins: ${wins} <br>
+    Losses: ${losses} <br>
+    Standoffs: ${standoffs}
+    `;
   
   document.getElementById('playerHand').innerHTML = `${playerHand.map(card => `${card.value}${card.suit}`).join(' ')}`;
   
@@ -202,14 +210,21 @@ function init() {
     wagerAmount += wagerInput; 
     updateDisplay();
   }
+  document.getElementById('status').innerHTML = `
+  Wins: ${wins} <br>
+  Losses: ${losses} <br>
+  Standoffs: ${standoffs}
+`;
+updateDisplay();
 }
 
 document.getElementById('playBtn').addEventListener('click', init);
 
-function blackjack() {
+function blackjack() { // not working
   if (playerPoints === 21) {
     message = 'Blackjack! Player wins!';
     chips += wagerAmount * 1.5; // payout 3:2
+    wins++;
     updateDisplay();
 
     const isPlayersTurnOver = (message === 'Blackjack! Player wins!');
@@ -227,6 +242,7 @@ function blackjack() {
   } else if (dealerPoints === 21) {
 
     message = 'Dealer has Blackjack! Dealer wins!';
+    losses++;
 
     updateDisplay();
 
@@ -258,6 +274,8 @@ function hit() {
 
   if (playerPoints > 21) {
     message = 'Player busts! Dealer wins!';
+    losses++;
+
     updateDisplay();
 
     const isPlayersTurnOver = (message === 'Player busts! Dealer wins!');
@@ -287,11 +305,14 @@ function stand() {
   if (dealerPoints > 21 || dealerPoints < playerPoints) {
     message = 'Player wins!';
     chips += wagerAmount * 2; // 1:1 payout for
+    wins++;
   } else if (dealerPoints > playerPoints) {
     message = 'Dealer wins!';
+    losses++;
   } else {
     message = 'Standoff';
     chips += wagerAmount; // return player's wager
+    standoffs++;
   }
 
   document.getElementById('playBtn').style.display = 'none';
@@ -357,6 +378,9 @@ function restartGame() {
   message = '';
   chips = 500;
   wagerAmount = 0;
+  wins = 0;
+  losses = 0;
+  standoffs = 0;
 
   deck = createDeck();
   shuffleDeck(deck);
@@ -381,33 +405,3 @@ function restartGame() {
 
 document.getElementById('continueBtn').addEventListener('click', continueGame);
 document.getElementById('restartBtn').addEventListener('click', restartGame);
-
-
-// // add to init, continue, and restart as applicable
-
-
-// let wins = 0;
-// let losses = 0;
-// let standoffs = 0;
-
-// // Inside the game logic where the outcomes are determined:
-
-// if (dealerPoints > 21 || dealerPoints < playerPoints) {
-//   message = 'Player wins!';
-//   wins++; // Increment wins counter
-//   // Rest of your logic...
-// } else if (dealerPoints > playerPoints) {
-//   message = 'Dealer wins!';
-//   losses++; // Increment losses counter
-//   // Rest of your logic...
-// } else {
-//   message = 'Standoff';
-//   standoffs++; // Increment standoffs counter
-//   // Rest of your logic...
-// }
-
-// document.getElementById('status').innerHTML = `
-//   Wins: ${wins} <br>
-//   Losses: ${losses} <br>
-//   Standoffs: ${standoffs}
-// `;
