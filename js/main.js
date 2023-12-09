@@ -107,7 +107,7 @@ function updateDisplay() {
   document.getElementById('message').innerText = message;
   document.getElementById('chips').innerText = `Chips: ${chips}`;
   document.getElementById('wager').innerText = `Wager: ${wagerAmount}`;
-  document.getElementById('status').innerHTML = `
+  document.getElementById('stats').innerHTML = `
     Wins: ${wins} <br>
     Losses: ${losses} <br>
     Standoffs: ${standoffs}
@@ -177,49 +177,6 @@ function updateDisplay() {
 let deck = createDeck();
 shuffleDeck(deck);
 
-function init() {
-  // Set game default
-  playerHand = [];
-  dealerHand = [];
-  playerPoints = 0;
-  dealerPoints = 0;
-  message = '';
-  wagerAmount = 0;
-
-  dealInitialCards();
-
-  playerPoints = calculateHandValue(playerHand);
-  dealerPoints = calculateDealerHandValue(dealerHand);
-
-  updateDisplay();
-
-  let wagerInput = parseInt(prompt('Enter wager - minimum 25.'));
-
-  if (!isNaN(wagerInput) && wagerInput >= 25 && wagerInput <= chips) {
-
-    chips -= wagerInput; 
-    wagerAmount += wagerInput; 
-    updateDisplay();
-
-  } else {
-
-    while (isNaN(wagerInput) || wagerInput < 25 || wagerInput > chips) {
-      wagerInput = parseInt(prompt('Invalid wager amount! Enter wager - minimum 25.'));
-    }
-    chips -= wagerInput; 
-    wagerAmount += wagerInput; 
-    updateDisplay();
-  }
-  document.getElementById('status').innerHTML = `
-  Wins: ${wins} <br>
-  Losses: ${losses} <br>
-  Standoffs: ${standoffs}
-`;
-updateDisplay();
-}
-
-document.getElementById('playBtn').addEventListener('click', init);
-
 function blackjack() { // not working
   if (playerPoints === 21) {
     message = 'Blackjack! Player wins!';
@@ -265,6 +222,52 @@ function blackjack() { // not working
   updateDisplay();
 
 }
+
+
+function init() {
+  // Set game default
+  playerHand = [];
+  dealerHand = [];
+  playerPoints = 0;
+  dealerPoints = 0;
+  message = '';
+  wagerAmount = 0;
+
+  dealInitialCards();
+
+  playerPoints = calculateHandValue(playerHand);
+  dealerPoints = calculateDealerHandValue(dealerHand);
+
+  updateDisplay();
+
+  let wagerInput = parseInt(prompt('Enter wager - minimum 25.'));
+
+  if (!isNaN(wagerInput) && wagerInput >= 25 && wagerInput <= chips) {
+
+    chips -= wagerInput; 
+    wagerAmount += wagerInput; 
+    updateDisplay();
+
+  } else {
+
+    while (isNaN(wagerInput) || wagerInput < 25 || wagerInput > chips) {
+      wagerInput = parseInt(prompt('Invalid wager amount! Enter wager - minimum 25.'));
+    }
+    chips -= wagerInput; 
+    wagerAmount += wagerInput; 
+    updateDisplay();
+  }
+  document.getElementById('stats').innerHTML = `
+  Wins: ${wins} <br>
+  Losses: ${losses} <br>
+  Standoffs: ${standoffs}
+`;
+updateDisplay();
+blackjack();
+}
+
+document.getElementById('playBtn').addEventListener('click', init);
+
 
 function hit() {
   const newCard = deck.shift();
